@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(
+            name: 'GREETING_NAME',
+            defaultValue: 'World',
+            description: 'The name to use in the greeting'
+        )
+    }
+
+    stages {
+
+        stage('Checkout Source Code') {
+            steps {
+                echo 'Starting Git checkout...'
+                git url: 'https://github.com/riavinod10/devops-lab', branch: 'main'
+                echo 'Git checkout completed.'
+            }
+        }
+
+        stage('Run Example Command') {
+            steps {
+                echo "Hello ${params.GREETING_NAME}"
+
+                sh 'echo "Hello from Declarative Pipeline!"'
+                sh 'echo "--- Reading README ---"'
+                sh 'cat README.md'
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline finished.'
+        }
+    }
+}
