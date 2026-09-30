@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout Source Code') {
+            steps {
+                checkout scm
+                echo 'Source code checked out successfully.'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                dir('Assignment-14') {
+                    sh 'docker build -t my-flask-app:${BUILD_NUMBER} .'
+                    sh 'docker tag my-flask-app:${BUILD_NUMBER} my-flask-app:latest'
+                }
+
+                echo 'Docker image built successfully.'
+            }
+        }
+
+        stage('Verify Docker Image') {
+            steps {
+                sh 'docker images my-flask-app'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+
+        failure {
+            echo 'Pipeline failed. Check the console output.'
+        }
+    }
+}
