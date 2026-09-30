@@ -1,0 +1,15 @@
+# Terraform working directory
+.terraform/
+
+# Terraform state files
+terraform.tfstate
+terraform.tfstate.backup
+*.tfstate
+*.tfstate.*
+
+# Generated file managed by Terraform
+example.txt
+
+# Crash logs
+crash.log
+crash.*.log
